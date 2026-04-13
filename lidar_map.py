@@ -25,6 +25,10 @@ try:
     ROS2_AVAILABLE = True
 except ImportError:
     ROS2_AVAILABLE = False
+    # Stub so the class definition below doesn't crash
+    class Node:
+        pass
+    LaserScan = None
 
 # ── Pygame ───────────────────────────────────────────────────────────────────
 try:
@@ -64,7 +68,7 @@ class LidarMapNode(Node):
         self.create_subscription(LaserScan, SCAN_TOPIC, self._cb, 10)
         self.get_logger().info(f"Subscribed to {SCAN_TOPIC}")
 
-    def _cb(self, msg: LaserScan):
+    def _cb(self, msg):
         self.latest_scan = msg
         self.scan_count  += 1
 
